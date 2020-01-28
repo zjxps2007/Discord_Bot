@@ -3,7 +3,7 @@ import discord
 
 app = discord.Client()
 
-token = "NjcwMTA5OTc0MDI1ODYzMTc5.XisIUg.H4PFWZJvWnLop8O5HxtC7N4C_gg"
+token = "hjbYttqitApLWzzDAkXuqTI3Nozx62nm"
 
 @app.event
 async def on_ready():
