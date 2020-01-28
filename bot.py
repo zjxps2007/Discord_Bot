@@ -1,6 +1,6 @@
 import discord
-
-client = discord.Client()
+from discord.ext import commands
+client = commands.Bot(command_prefix="!")
 
 token = ""
 
@@ -26,14 +26,13 @@ async def on_message(message):
         #!등록 다음부터 저장하는 변수 name
         name = message.content[4:len(message.content)]
         #유저 아이디 저장할 변수 & 출력
-        member = client.user.id
-        await message.channel.send(member)
+        tsg = message.author.id
+        await message.channel.send(tsg)
         #이름을 잘못등록햇을때의 예외처리
         try:
             await message.channel.send(name)
         except:
-            await message.channel.send("다시입력")
-
-
+            print("다시입력")
+            #await message.channel.send("다시입력")
 
 client.run(token)
