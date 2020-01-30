@@ -1,5 +1,5 @@
 import discord
-import asyncio
+import datetime
 from discord.ext import commands
 client = commands.Bot(command_prefix="!")
 
@@ -11,24 +11,42 @@ async def on_ready():
     game = discord.Game('!커맨드 | {0}ms'.format(int(client.latency * 1000)))
     await client.change_presence(status=discord.Status.online, activity=game)
 
-# @client.event
-# async def on_member_join(ctx, member):
-#
-#     embed = discord.Embed(color=member.color)
-#
-#     embed.set_author(name=f"User Info - {member}")
-#     embed.set_thumbnail(url=member.avatar_url)
-#     embed.set_footer(text="{Requested by {ctx.author}", icon_url=ctx.author.avatar_url)
-#
-#     embed.add_field(name="ID", value=member.id)
-#     embed.add_field(name="Guild name", value=member.display_name)
-#
-#     embed.add_field(name="Created at:", value=member.created_at.strftime("%a, %#d %B %Y, %I:%M %p UTC"))
-#     embed.add_field(name="Joined at:", value=member.joined_at.strftime("%a, %#d %B %Y, %I:%M %p UTC"))
-#
-#     embed.add_field(name="Bot?", value=member.bot)
-#
-#     await ctx.send(embed=embed)
+@client.event
+async def on_member_join(member):
+
+    date = datetime.datetime.utcfromtimestamp(((int(member.id) >> 22) + 1420070400000) / 1000)
+
+    embed = discord.Embed(color=0xffff00)
+
+    embed.add_field(name="이름", value=member.name, inline=True)
+    embed.add_field(name="서버닉네임", value=member.display_name, inline=True)
+    embed.add_field(name="가입일", value=str(date.year) + '년 ' + str(date.month) + '월 ' + str(date.day) + '일', inline=True)
+    embed.add_field(name='ID', value=member.id, inline=True)
+    embed.set_thumbnail(url=member.avatar_url)
+
+    await member.guild.system_channel.send(embed=embed)
+
+
+    # guild = member.guild
+    # if guild.system_channel is not None:
+    #     to_send = 'Welcome {0.mention} to {1.name}!'.format(member, guild)
+    #     await guild.system_channel.send(to_send)
+
+    # embed = discord.Embed(color=member.color)
+    #
+    # embed.set_author(name=f"User Info - {member}")
+    # embed.set_thumbnail(url=member.avatar_url)
+    # embed.set_footer(text="{Requested by {ctx.author}", icon_url=ctx.author.avatar_url)
+    #
+    # embed.add_field(name="ID", value=member.id)
+    # embed.add_field(name="Guild name", value=member.display_name)
+    #
+    # embed.add_field(name="Created at:", value=member.created_at.strftime("%a, %#d %B %Y, %I:%M %p UTC"))
+    # embed.add_field(name="Joined at:", value=member.joined_at.strftime("%a, %#d %B %Y, %I:%M %p UTC"))
+    #
+    # # embed.add_field(name="Bot?", value=member.bot)
+    #
+    # await guild.system_channel.send(embed=embed)
 
 @client.event
 async def on_message(message):
