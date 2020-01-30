@@ -8,23 +8,27 @@ token = ""
 @client.event
 async def on_ready():
     print('We have logged in as {0.user}'.format(client))
-    game = discord.Game("!커맨드|")
+    game = discord.Game('!커맨드 | {0}ms'.format(int(client.latency * 1000)))
     await client.change_presence(status=discord.Status.online, activity=game)
 
 # @client.event
-# async def on_member_join( ctx, member):
-
-    # embed = discord.Embed(color=member.color,)
-    #
-    # embed.set_author(name=f"User Info - {member}")
-    # embed.set_thumbnail(url=member.avatar_url)
-    # embed.set_footer(text="{Requested by {ctx.author}", icon_url=ctx.author.avatar_url)
-    #
-    # embed.add_field(name="ID", value=member.id)
-    # embed.add_field(name="Guild name", value=member.display_name)
-    #
-    # embed.add_field(name="Created at:", value=member.created_at.strftime("%a, %#d %B %Y, %I:%M %p UTC"))
-    # embed.add_field(name="Joined at:", value=member.joined_at.strftime("%a, %#d %B %Y, %I:%M %p UTC"))
+# async def on_member_join(ctx, member):
+#
+#     embed = discord.Embed(color=member.color)
+#
+#     embed.set_author(name=f"User Info - {member}")
+#     embed.set_thumbnail(url=member.avatar_url)
+#     embed.set_footer(text="{Requested by {ctx.author}", icon_url=ctx.author.avatar_url)
+#
+#     embed.add_field(name="ID", value=member.id)
+#     embed.add_field(name="Guild name", value=member.display_name)
+#
+#     embed.add_field(name="Created at:", value=member.created_at.strftime("%a, %#d %B %Y, %I:%M %p UTC"))
+#     embed.add_field(name="Joined at:", value=member.joined_at.strftime("%a, %#d %B %Y, %I:%M %p UTC"))
+#
+#     embed.add_field(name="Bot?", value=member.bot)
+#
+#     await ctx.send(embed=embed)
 
 @client.event
 async def on_message(message):
@@ -54,5 +58,8 @@ async def on_message(message):
             if role.name.lower() in "생존자":
                 if role not in message.author.roles:
                     await message.author.add_roles(role)
+
+        #이름 변경
+
 
 client.run(token)
