@@ -15,17 +15,16 @@ async def on_ready():
 async def on_member_join(member):
 
     date = datetime.datetime.utcfromtimestamp(((int(member.id) >> 22) + 1420070400000) / 1000)
-    nowtime = datetime.datetime.now()
 
     embed = discord.Embed(color=0x4CC417)  #페라리 레드 - 0xF70D1A
 
-    embed.add_field(name="이름", value=member.name)
+    embed.add_field(name="이름", value=member.name, inline=False)
+
     #embed.add_field(name="서버닉네임", value=member.display_name)
-    embed.add_field(name="가입일", value=str(date.year) + '년 ' + str(date.month) + '월 ' + str(date.day) + '일')
+    embed.add_field(name="계정 생성일", value=str(date.year) + '-' + str(date.month) + '-' + str(date.day), inline=False)
     embed.add_field(name='ID', value=member.id)
     embed.set_thumbnail(url=member.avatar_url)
 
-    embed.set_footer(text=str(nowtime.year) + '년 ' + str(nowtime.month) + '월 ' + str(nowtime.day) + '일 | ' + str(nowtime.hour) + ': ' + str(nowtime.minute) + ': ' + str(nowtime.second))
 
     await member.guild.system_channel.send(embed=embed)
 
@@ -34,6 +33,7 @@ async def on_member_join(member):
     # if guild.system_channel is not None:
     #     to_send = 'Welcome {0.mention} to {1.name}!'.format(member, guild)
     #     await guild.system_channel.send(to_send)
+
 
     # embed = discord.Embed(color=member.color)
     #
