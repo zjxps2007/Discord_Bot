@@ -18,7 +18,9 @@ async def on_member_join(member):
 
     embed = discord.Embed(color=0x4CC417)  #페라리 레드 - 0xF70D1A
 
+
     embed.add_field(name="이름", value=member.name, inline=False)
+    embed.set_author(name="dlfm", icon_url=member.avatar_url)
 
     #embed.add_field(name="서버닉네임", value=member.display_name)
     embed.add_field(name="계정 생성일", value=str(date.year) + '-' + str(date.month) + '-' + str(date.day), inline=False)
