@@ -13,41 +13,23 @@ async def on_ready():
 
 @client.event
 async def on_member_join(member):
-
+    guild = member.guild
     date = datetime.datetime.utcfromtimestamp(((int(member.id) >> 22) + 1420070400000) / 1000)
-    embed = discord.Embed(color=0x4CC417, description="{0.mention} 님이 서버에 입장하였습니다.".format(member))  #페라리 레드 - 0xF70D1A
+    embed = discord.Embed(color=0x4CC417, description="✅{0.mention} 님이 서버에 입장하였습니다.".format(member)) #페라리 레드 - 0xF70D1A ✅ ❌
 
     embed.set_author(name='{0} ({1})'.format(member, member.id), icon_url=member.avatar_url)
     embed.set_thumbnail(url=member.avatar_url)
+    embed.set_footer(text='{0.name}'.format(guild))
 
     embed.add_field(name="계정 생성일", value=str(date.year) + '-' + str(date.month) + '-' + str(date.day), inline=False)
 
-
-
-    await member.guild.system_channel.send(embed=embed)
+    await guild.system_channel.send(embed=embed)
 
 
     # guild = member.guild
     # if guild.system_channel is not None:
     #     to_send = 'Welcome {0.mention} to {1.name}!'.format(member, guild)
     #     await guild.system_channel.send(to_send)
-
-
-    # embed = discord.Embed(color=member.color)
-    #
-    # embed.set_author(name=f"User Info - {member}")
-    # embed.set_thumbnail(url=member.avatar_url)
-    # embed.set_footer(text="{Requested by {ctx.author}", icon_url=ctx.author.avatar_url)
-    #
-    # embed.add_field(name="ID", value=member.id)
-    # embed.add_field(name="Guild name", value=member.display_name)
-    #
-    # embed.add_field(name="Created at:", value=member.created_at.strftime("%a, %#d %B %Y, %I:%M %p UTC"))
-    # embed.add_field(name="Joined at:", value=member.joined_at.strftime("%a, %#d %B %Y, %I:%M %p UTC"))
-    #
-    # # embed.add_field(name="Bot?", value=member.bot)
-    #
-    # await guild.system_channel.send(embed=embed)
 
 @client.event
 async def on_message(message):
@@ -62,10 +44,9 @@ async def on_message(message):
         # tsg = message.author.id
         # await message.channel.send(tsg)
 
-        #!등록 다음부터 저장하는 변수 name
-        name = message.content[4:len(message.content)]
+        name = message.content[4:len(message.content)] #!등록 다음부터 저장하는 변수 name
 
-        #이름을 잘못등록햇을때의 예외처리
+        # 이름을 잘못등록햇을때의 예외처리
         try:
             await message.channel.send(name)
         except:
@@ -77,8 +58,5 @@ async def on_message(message):
             if role.name.lower() in "생존자":
                 if role not in message.author.roles:
                     await message.author.add_roles(role)
-
-        #이름 변경
-
 
 client.run(token)
