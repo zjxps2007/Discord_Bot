@@ -25,12 +25,6 @@ async def on_member_join(member):
 
     await guild.system_channel.send(embed=embed)    # 원하는 서버에 메세지 보낼려면 client.get_channel(channel_Id) / 서버설정  시스템에 보내려면 그대로
 
-
-    # guild = member.guild
-    # if guild.system_channel is not None:
-    #     to_send = 'Welcome {0.mention} to {1.name}!'.format(member, guild)
-    #     await guild.system_channel.send(to_send)
-
 @client.event
 async def on_member_remove(member):
     guild = member.guild
