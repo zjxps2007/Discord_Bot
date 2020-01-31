@@ -1,31 +1,27 @@
 import discord
 import datetime
 from discord.ext import commands
-client = commands.Bot(command_prefix="!")
 
+client = commands.Bot(command_prefix="!")
 token = ""
 
 @client.event
 async def on_ready():
     print('We have logged in as {0.user}'.format(client))
-    game = discord.Game('!커맨드 | {0}ms'.format(int(client.latency * 1000)))
+    game = discord.Game('!도움 | {0}ms'.format(int(client.latency * 1000)))
     await client.change_presence(status=discord.Status.online, activity=game)
 
 @client.event
 async def on_member_join(member):
 
     date = datetime.datetime.utcfromtimestamp(((int(member.id) >> 22) + 1420070400000) / 1000)
+    embed = discord.Embed(color=0x4CC417, description="{0.mention} 님이 서버에 입장하였습니다.".format(member))  #페라리 레드 - 0xF70D1A
 
-    embed = discord.Embed(color=0x4CC417)  #페라리 레드 - 0xF70D1A
-
-
-    embed.add_field(name="이름", value=member.name, inline=False)
-    embed.set_author(name="dlfm", icon_url=member.avatar_url)
-
-    #embed.add_field(name="서버닉네임", value=member.display_name)
-    embed.add_field(name="계정 생성일", value=str(date.year) + '-' + str(date.month) + '-' + str(date.day), inline=False)
-    embed.add_field(name='ID', value=member.id)
+    embed.set_author(name='{0} ({1})'.format(member, member.id), icon_url=member.avatar_url)
     embed.set_thumbnail(url=member.avatar_url)
+
+    embed.add_field(name="계정 생성일", value=str(date.year) + '-' + str(date.month) + '-' + str(date.day), inline=False)
+
 
 
     await member.guild.system_channel.send(embed=embed)
@@ -57,8 +53,8 @@ async def on_member_join(member):
 async def on_message(message):
     if message.author.bot:
         return None
-    if message.content == "!커맨드":
-        await message.channel.send('Hello!')
+    if message.content == "!도움":
+        await message.channel.send('도움말!')
 
     if message.content.startswith("!등록"):
 
