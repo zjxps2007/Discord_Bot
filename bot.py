@@ -23,13 +23,26 @@ async def on_member_join(member):
 
     embed.add_field(name="계정 생성일", value=str(date.year) + '-' + str(date.month) + '-' + str(date.day), inline=False)
 
-    await guild.system_channel.send(embed=embed)
+    await guild.system_channel.send(embed=embed)    # 원하는 서버에 메세지 보낼려면 client.get_channel(channel_Id) / 서버설정  시스템에 보내려면 그대로
 
 
     # guild = member.guild
     # if guild.system_channel is not None:
     #     to_send = 'Welcome {0.mention} to {1.name}!'.format(member, guild)
     #     await guild.system_channel.send(to_send)
+
+@client.event
+async def on_member_remove(member):
+    guild = member.guild
+
+    embed = discord.Embed(color=0xF70D1A, description='❌{0.mention} 님이 서버에서 퇴장하였습니다.'.format(member))
+
+    embed.set_author(name='{0} ({1})'.format(member, member.id), icon_url=member.avatar_url)
+    embed.set_thumbnail(url=member.avatar_url)
+    embed.set_footer(text='{0.name}'.format(guild))
+
+    await guild.system_channel.send(embed=embed)
+
 
 @client.event
 async def on_message(message):
