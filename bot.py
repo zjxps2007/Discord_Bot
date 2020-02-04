@@ -23,7 +23,7 @@ async def on_member_join(member):
 
     embed.add_field(name="계정 생성일", value=str(date.year) + '-' + str(date.month) + '-' + str(date.day), inline=False)
 
-    await guild.system_channel.send(embed=embed)    # 원하는 서버에 메세지 보낼려면 client.get_channel(channel_Id) / 서버설정  시스템에 보내려면 그대로
+    await guild.system_channel.send(embed=embed)  # 원하는 서버에 메세지 보낼려면 client.get_channel(channel_Id) / 서버설정 시스템에 보내려면 그대로
 
 @client.event
 async def on_member_remove(member):
@@ -37,33 +37,43 @@ async def on_member_remove(member):
 
     await guild.system_channel.send(embed=embed)
 
+#채널 참여 & 나감 이벤트
+# @client.event
+# async def on_group_join(channel, user):
+# @client.event
+# async def on_group_join(channel, user):
+
 
 @client.event
 async def on_message(message):
     if message.author.bot:
         return None
-    if message.content == "!도움":
+
+    if message.content.startswith("!정보"):
         await message.channel.send('도움말!')
 
     if message.content.startswith("!등록"):
 
         # 유저 아이디 저장할 변수 & 출력
-        # tsg = message.author.id
-        # await message.channel.send(tsg)
+        tsg = int(message.author.id)
+        username = message.guild.get_member(tsg)
+        member = discord.Member
 
         name = message.content[4:len(message.content)] #!등록 다음부터 저장하는 변수 name
 
+        await message.channel.send(username)
+
         # 이름을 잘못등록햇을때의 예외처리
         try:
+            # 권한 변경
+            for role in message.guild.roles:
+                if role.name.lower() in "생존자":
+                    if role not in message.author.roles:
+                        await message.author.add_roles(role)
+                        await member.edit(username, nick=name)
             await message.channel.send(name)
         except:
             print("다시입력")
             #await message.channel.send("다시입력")
-
-        #권한 변경
-        for role in message.guild.roles:
-            if role.name.lower() in "생존자":
-                if role not in message.author.roles:
-                    await message.author.add_roles(role)
 
 client.run(token)
