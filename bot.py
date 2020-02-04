@@ -58,7 +58,6 @@ async def on_message(message):
         tsg = int(message.author.id)
         username = message.guild.get_member(tsg)
         member = discord.Member
-
         name = message.content[4:len(message.content)] #!등록 다음부터 저장하는 변수 name
 
         await message.channel.send(username)
