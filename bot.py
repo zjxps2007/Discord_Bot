@@ -37,12 +37,14 @@ async def on_member_remove(member):
 
     await guild.system_channel.send(embed=embed)
 
-#채널 참여 & 나감 이벤트
 # @client.event
-# async def on_group_join(channel, user):
-# @client.event
-# async def on_group_join(channel, user):
-
+# async def on_voice_state_update(member):
+#     guild = member.guild
+#     voicstate = discord.VoiceState
+#
+#     if voicstate.self_mute:
+#         embed = discord.Embed(color=0x4CC417, description="✅{0.mention} 님이 서버에 입장하였습니다.".format(member))
+#         await guild.system_channel.send(embed=embed)
 
 @client.event
 async def on_message(message):
@@ -54,25 +56,21 @@ async def on_message(message):
 
     if message.content.startswith("!등록"):
 
-        # 유저 아이디 저장할 변수 & 출력
         tsg = int(message.author.id)
         username = message.guild.get_member(tsg)
         member = discord.Member
-        name = message.content[4:len(message.content)] #!등록 다음부터 저장하는 변수 name
+        guild = message.guild
+        name = str(message.content[3:len(message.content)]) #!등록 다음부터 저장하는 변수 name
 
-        await message.channel.send(username)
-
-        # 이름을 잘못등록햇을때의 예외처리
-        try:
-            # 권한 변경
+        if message.content == "!등록":
+            embed = discord.Embed(color=0xFFFF05, description="!등록 \'[서버]닉네임\'으로 등록해주세요!")
+            embed.set_footer(text='{0.name}'.format(guild))
+            await message.channel.send(embed=embed)
+        else:
             for role in message.guild.roles:
                 if role.name.lower() in "생존자":
                     if role not in message.author.roles:
                         await message.author.add_roles(role)
                         await member.edit(username, nick=name)
-            await message.channel.send(name)
-        except:
-            print("다시입력")
-            #await message.channel.send("다시입력")
 
 client.run(token)
