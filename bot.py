@@ -67,10 +67,16 @@ async def on_message(message):
             embed.set_footer(text='{0.name}'.format(guild))
             await message.channel.send(embed=embed)
         else:
+            #embed = discord.Embed(color=0xF70D1A, description='❌{0.mention} 님이 서버에서 퇴장하였습니다.'.format(member))
+            embed = discord.Embed(color=0xF244A4, description='등록 되었습니다.')
+            embed.set_author(name='{0} ({1})'.format(username, tsg), icon_url=message.author.avatar_url)
+            embed.set_footer(text='{0.name}'.format(guild))
+
             for role in message.guild.roles:
                 if role.name.lower() in "생존자":
                     if role not in message.author.roles:
                         await message.author.add_roles(role)
                         await member.edit(username, nick=name)
+                        await client.get_channel(674885852517892106).send(embed=embed)
 
 client.run(token)
