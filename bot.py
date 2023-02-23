@@ -36,6 +36,7 @@ async def on_member_remove(member):
     embed.set_footer(text='{0.name}'.format(guild))
 
     await guild.system_channel.send(embed=embed)
+    
 
 # @client.event
 # async def on_voice_state_update(member):
